@@ -5,6 +5,10 @@ module.exports = {
     extend: {
       colors: {
         yellowYa: '#f5c400',
+        secondary: '#232325',
+      },
+      opacity: {
+        38: 0.38,
       },
     },
   },

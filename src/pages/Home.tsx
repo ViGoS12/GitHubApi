@@ -1,14 +1,17 @@
 import { useSelector } from 'react-redux'
-import { fetchUserProfile } from './../redux/slices/userSlice'
+import { fetchUserProfile, fetchUserRepos } from './../redux/slices/userSlice'
 import { RootState, useAppDispatch } from './../redux/store'
-import User from '../components/User'
-import { useCallback, useState } from 'react'
+
+import { useCallback, useState, lazy, Suspense } from 'react'
 import Search from '../components/search'
+
+const User = lazy(() => import('../components/User'))
 
 const Home = () => {
   const dispatch = useAppDispatch()
 
   const [userName, setUserName] = useState('')
+  const { user, userRepos } = useSelector((state: RootState) => state.user)
 
   const clearSearchValue = () => {
     setUserName('')
@@ -21,22 +24,25 @@ const Home = () => {
     []
   )
 
-  const { user } = useSelector((state: RootState) => state.user)
-
-  const getUser = () => {
+  const getUserProfileAndRepos = () => {
     dispatch(fetchUserProfile({ userName }))
+    dispatch(fetchUserRepos({ userName }))
   }
 
   return (
-    <main className='mx-auto w-6/12 flex flex-col gap-5  '>
+    <main className='mx-auto pl-[1.6rem] pr-[1.7rem] pt-[1.4rem]  flex flex-col gap-5 '>
       <Search
         searchValue={userName}
         changeInput={onChangeInput}
-        getUser={getUser}
+        getUser={getUserProfileAndRepos}
         clearSearchValue={clearSearchValue}
       />
 
-      {Object.keys(user).length && <User {...user} />}
+      <Suspense fallback={<h1>Loading...</h1>}>
+        {Object.keys(user).length && (
+          <User userName={userName} user={user} userRepos={userRepos} />
+        )}
+      </Suspense>
     </main>
   )
 }
