@@ -23,7 +23,7 @@ const Search: React.FC<ISearchProps> = ({
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') {
-      router(`${searchValue}/repos`)
+      router(`/${searchValue}/repos`)
     }
   }
 

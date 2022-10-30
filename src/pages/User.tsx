@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useMemo } from 'react'
+import { useEffect, useCallback } from 'react'
 
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../redux/store'
@@ -11,12 +11,19 @@ import Table from './../components/table/'
 import Search from '../components/search'
 
 import { THEADCOL_USER } from '../constants'
+import Pagination from '../components/UI/pagination'
+import { setPage } from '../redux/slices/infoSlice'
 
 const User = () => {
   const { userName } = useParams()
   const dispatch = useAppDispatch()
   const { user, userRepos } = useSelector((state: RootState) => state.user)
   const { searchValue } = useSelector((state: RootState) => state.search)
+  const { page, pagCount, publicRepos } = useSelector(
+    (state: RootState) => state.info
+  )
+
+  const totalPage = Math.ceil(publicRepos / pagCount)
 
   const onChangeInput = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,16 +38,20 @@ const User = () => {
   const getUserProfileAndRepos = () => {
     if (userName) {
       dispatch(fetchUserProfile({ userName }))
-      dispatch(fetchUserRepos({ userName }))
+      dispatch(fetchUserRepos({ userName, page, pagCount }))
     }
   }
 
+  const handleChangePage = useCallback((page: number) => {
+    dispatch(setPage(page))
+  }, [])
+
   useEffect(() => {
     getUserProfileAndRepos()
-  }, [userName])
+  }, [userName, page, pagCount])
 
   return (
-    <div className='flex flex-col gap-5  pt-[1.4rem]'>
+    <main className='flex flex-col gap-5  pt-[1.4rem]'>
       <div className='mx-auto w-6/12'>
         <Search
           searchValue={searchValue}
@@ -48,7 +59,7 @@ const User = () => {
           clearSearchValue={clearSearchValue}
         />
       </div>
-      <main className='flex gap-5 justify-around px-10'>
+      <div className='flex gap-5 justify-around px-10'>
         <div className='flex flex-col gap-4 text-center sticky h-fit'>
           <img className='w-fit rounded-[50%] ' src={user.avatar_url} alt='' />
           <div className='flex flex-col text-start gap-1'>
@@ -82,8 +93,9 @@ const User = () => {
             ))}
           </Table>
         )}
-      </main>
-    </div>
+      </div>
+      <Pagination totalPage={totalPage} onChange={handleChangePage} />
+    </main>
   )
 }
 

@@ -49,6 +49,11 @@ type userFilter = {
   userName: string
 }
 
+type reposFilter = userFilter & {
+  page: number
+  pagCount: number
+}
+
 type repoFilter = userFilter & {
   repoName: string
 }

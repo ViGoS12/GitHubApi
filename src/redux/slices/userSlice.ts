@@ -28,17 +28,16 @@ export const fetchUserProfile = createAsyncThunk<User, userFilter>(
   }
 )
 
-export const fetchUserRepos = createAsyncThunk<UserRepo[], userFilter>(
+export const fetchUserRepos = createAsyncThunk<UserRepo[], reposFilter>(
   'user/fetchUserRepos',
   async (params) => {
-    const { userName } = params
+    const { userName, page, pagCount } = params
     const { data } = await axiosInstance.get(`/users/${userName}/repos`, {
       params: {
-        per_page: 9999,
-        page: 2,
+        per_page: pagCount,
+        page: page,
       },
     })
-    console.log(data)
     return data
   }
 )
