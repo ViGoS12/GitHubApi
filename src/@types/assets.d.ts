@@ -45,8 +45,12 @@ type User = {
   updated_at: Date
 }
 
-type Filter = {
+type userFilter = {
   userName: string
+}
+
+type repoFilter = userFilter & {
+  repoName: string
 }
 
 type UserRepo = {

@@ -4,18 +4,22 @@ import { axiosInstance } from './../../components/API/'
 interface IUserState {
   user: User
   statusUser: 'loading' | 'success' | 'error'
-  statusRepos: 'loading' | 'success' | 'error'
   userRepos: UserRepo[]
+  statusRepos: 'loading' | 'success' | 'error'
+  repoInfo: RepoInfo
+  statusRepo: 'loading' | 'success' | 'error'
 }
 
 const initialState: IUserState = {
-  user: {} as User,
   statusUser: 'loading',
+  user: {} as User,
   statusRepos: 'loading',
   userRepos: [] as UserRepo[],
+  statusRepo: 'loading',
+  repoInfo: {} as RepoInfo,
 }
 
-export const fetchUserProfile = createAsyncThunk<User, Filter>(
+export const fetchUserProfile = createAsyncThunk<User, userFilter>(
   'user/fetchUserProfile',
   async (params) => {
     const { userName } = params
@@ -24,11 +28,22 @@ export const fetchUserProfile = createAsyncThunk<User, Filter>(
   }
 )
 
-export const fetchUserRepos = createAsyncThunk<UserRepo[], Filter>(
+export const fetchUserRepos = createAsyncThunk<UserRepo[], userFilter>(
   'user/fetchUserRepos',
   async (params) => {
     const { userName } = params
     const { data } = await axiosInstance.get(`/users/${userName}/repos`)
+    return data
+  }
+)
+
+export const fetchRepo = createAsyncThunk<RepoInfo, repoFilter>(
+  'user/fetchRepo',
+  async (params) => {
+    const { userName, repoName } = params
+    const { data } = await axiosInstance.get(
+      `/users/${userName}/repos/${repoName}`
+    )
     return data
   }
 )
@@ -47,14 +62,22 @@ export const userSlice = createSlice({
       state.statusRepos = 'loading'
       state.userRepos = [] as UserRepo[]
     })
+    builder.addCase(fetchRepo.pending, (state) => {
+      state.statusRepo = 'loading'
+      state.repoInfo = {} as RepoInfo
+    })
 
     builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
       state.statusUser = 'success'
       state.user = action.payload
     })
     builder.addCase(fetchUserRepos.fulfilled, (state, action) => {
-      state.statusUser = 'success'
+      state.statusRepos = 'success'
       state.userRepos = action.payload
+    })
+    builder.addCase(fetchRepo.fulfilled, (state, action) => {
+      state.statusRepo = 'loading'
+      state.repoInfo = action.payload
     })
 
     builder.addCase(fetchUserProfile.rejected, (state) => {
@@ -62,12 +85,14 @@ export const userSlice = createSlice({
       state.user = {} as User
     })
     builder.addCase(fetchUserRepos.rejected, (state) => {
-      state.statusUser = 'error'
+      state.statusRepos = 'error'
       state.userRepos = [] as UserRepo[]
+    })
+    builder.addCase(fetchRepo.rejected, (state) => {
+      state.statusRepo = 'error'
+      state.repoInfo = {} as RepoInfo
     })
   },
 })
-
-export const {} = userSlice.actions
 
 export default userSlice.reducer
