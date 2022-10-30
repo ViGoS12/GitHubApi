@@ -6,7 +6,7 @@ interface IUserState {
   statusUser: 'loading' | 'success' | 'error'
   userRepos: UserRepo[]
   statusRepos: 'loading' | 'success' | 'error'
-  repoInfo: RepoInfo
+  repoInfo: RepoInfo[]
   statusRepo: 'loading' | 'success' | 'error'
 }
 
@@ -16,7 +16,7 @@ const initialState: IUserState = {
   statusRepos: 'loading',
   userRepos: [] as UserRepo[],
   statusRepo: 'loading',
-  repoInfo: {} as RepoInfo,
+  repoInfo: [] as RepoInfo[],
 }
 
 export const fetchUserProfile = createAsyncThunk<User, userFilter>(
@@ -32,17 +32,28 @@ export const fetchUserRepos = createAsyncThunk<UserRepo[], userFilter>(
   'user/fetchUserRepos',
   async (params) => {
     const { userName } = params
-    const { data } = await axiosInstance.get(`/users/${userName}/repos`)
+    const { data } = await axiosInstance.get(`/users/${userName}/repos`, {
+      params: {
+        per_page: 9999,
+        page: 2,
+      },
+    })
+    console.log(data)
     return data
   }
 )
 
-export const fetchRepo = createAsyncThunk<RepoInfo, repoFilter>(
+export const fetchRepo = createAsyncThunk<RepoInfo[], repoFilter>(
   'user/fetchRepo',
   async (params) => {
     const { userName, repoName } = params
     const { data } = await axiosInstance.get(
-      `/users/${userName}/repos/${repoName}`
+      `/repos/${userName}/${repoName}/commits`,
+      {
+        params: {
+          per_page: 'all',
+        },
+      }
     )
     return data
   }
@@ -64,7 +75,7 @@ export const userSlice = createSlice({
     })
     builder.addCase(fetchRepo.pending, (state) => {
       state.statusRepo = 'loading'
-      state.repoInfo = {} as RepoInfo
+      state.repoInfo = [] as RepoInfo[]
     })
 
     builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
@@ -90,7 +101,7 @@ export const userSlice = createSlice({
     })
     builder.addCase(fetchRepo.rejected, (state) => {
       state.statusRepo = 'error'
-      state.repoInfo = {} as RepoInfo
+      state.repoInfo = [] as RepoInfo[]
     })
   },
 })

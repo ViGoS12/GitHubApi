@@ -1,46 +1,28 @@
-import { Link } from 'react-router-dom'
+import TableHead from './tableHead'
+import { ReactNode } from 'react'
 
 interface ITableProps {
-  userName: string
-  userRepos: UserRepo[]
+  tHeadCol: string[]
+  cnTHeadCol?: string
+  children: ReactNode
 }
 
-const Table: React.FC<ITableProps> = ({ userName, userRepos }) => {
-  console.log(userRepos)
+const Table: React.FC<ITableProps> = ({ tHeadCol, cnTHeadCol, children }) => {
   return (
-    <table className=' '>
+    <table>
       <thead className=' border border-solid border-divider '>
         <tr>
-          <th className='text-sm font-medium  px-6 py-1 text-left'>Name</th>
-          <th className='text-sm font-medium  px-6 py-1 text-left'>
-            Programming language
-          </th>
-          <th className='text-sm font-medium  px-6 py-1 text-left'>
-            Description
-          </th>
-          <th className='text-sm font-medium  px-6 py-1 text-left'>Stars</th>
+          {tHeadCol.map((col) => {
+            return (
+              <TableHead
+                key={col}
+                item={col}
+                className={cnTHeadCol}></TableHead>
+            )
+          })}
         </tr>
       </thead>
-      <tbody>
-        {userRepos.map((repo) => (
-          <tr className='border border-solid border-divider' key={repo.id}>
-            <td className='text-sm font-light px-6 py-2 '>
-              <Link
-                className=' hover:opacity-45'
-                to={`/${userName}/repos/${repo.name}`}>
-                {repo.name}
-              </Link>
-            </td>
-            <td className=' text-sm font-light px-6 py-2'>{repo.language}</td>
-            <td className=' text-sm font-light px-6 py-2'>
-              {repo.description}
-            </td>
-            <td className=' text-sm font-light px-6 py-2 '>
-              {repo.stargazers_count}
-            </td>
-          </tr>
-        ))}
-      </tbody>
+      <tbody>{children}</tbody>
     </table>
   )
 }

@@ -1,13 +1,16 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useMemo } from 'react'
+
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../redux/store'
 import { fetchUserProfile, fetchUserRepos } from '../redux/slices/userSlice'
+import { setSearchValue } from '../redux/slices/searchSlice'
 
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import Table from './../components/table/'
-import { setSearchValue } from '../redux/slices/searchSlice'
 import Search from '../components/search'
+
+import { THEADCOL_USER } from '../constants'
 
 const User = () => {
   const { userName } = useParams()
@@ -53,7 +56,32 @@ const User = () => {
             <div className='text-[#8B949E]'>{user.login}</div>
           </div>
         </div>
-        {userName && <Table userName={userName} userRepos={userRepos} />}
+        {userName && (
+          <Table
+            tHeadCol={THEADCOL_USER}
+            cnTHeadCol='text-sm font-medium  px-6 py-1 text-left'>
+            {userRepos.map((repo) => (
+              <tr key={repo.id}>
+                <td className='text-sm font-light px-6 py-2'>
+                  <Link
+                    className=' hover:opacity-45'
+                    to={`/${userName}/repos/${repo.name}`}>
+                    {repo.name}
+                  </Link>
+                </td>
+                <td className='text-sm font-light px-6 py-2'>
+                  {repo.language}
+                </td>
+                <td className='text-sm font-light px-6 py-2'>
+                  {repo.description}
+                </td>
+                <td className='text-sm font-light px-6 py-2'>
+                  {repo.stargazers_count}
+                </td>
+              </tr>
+            ))}
+          </Table>
+        )}
       </main>
     </div>
   )

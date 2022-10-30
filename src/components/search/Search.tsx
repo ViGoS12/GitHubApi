@@ -29,9 +29,9 @@ const Search: React.FC<ISearchProps> = ({
 
   return (
     <>
-      <div className='flex h-11 border-solid border-[2px] border-secondary  bg-secondary rounded-[0.8rem]   '>
+      <div className='w-full flex h-11 border-solid border-[2px] border-secondary  bg-secondary rounded-[0.8rem]   '>
         <input
-          className='relative  px-2 text-[0.9rem] rounded-[0.8rem]  flex-auto bg-secondary'
+          className='px-2 text-[0.9rem] rounded-[0.8rem] flex-auto bg-secondary w-full'
           placeholder='Enter UserName'
           ref={inputRef}
           value={searchValue}
@@ -43,12 +43,16 @@ const Search: React.FC<ISearchProps> = ({
           <div
             className='flex items-center content-center  p-2 cursor-pointer'
             onClick={onClickClear}>
-            <img src={CleatButton} alt='' className='w-4 h-4 opacity-38 ' />
+            <img
+              src={CleatButton}
+              alt=''
+              className='min-w-[16px] min-h-[16px]  opacity-38 '
+            />
           </div>
         )}
         <Link
           to={`/${searchValue}/repos`}
-          className='text-black bg-yellowYa block px-[20px] rounded-[0.5rem] hover:opacity-90 transition-all my-[4px] mr-[4px] text-[0.9rem] s'>
+          className='text-black bg-yellowYa block px-[20px] rounded-[0.5rem] hover:opacity-90 transition-all my-[4px] mr-[4px] text-[0.9rem]'>
           Get User
         </Link>
       </div>
