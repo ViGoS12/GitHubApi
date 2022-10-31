@@ -20,12 +20,14 @@ const Home = () => {
   )
 
   return (
-    <main className='h-full flex items-center justify-center w-6/12 mx-auto'>
-      <Search
-        searchValue={searchValue}
-        changeInput={onChangeInput}
-        clearSearchValue={clearSearchValue}
-      />
+    <main className='h-full flex items-center justify-center mx-auto'>
+      <div className='sm:w-6/12'>
+        <Search
+          searchValue={searchValue}
+          changeInput={onChangeInput}
+          clearSearchValue={clearSearchValue}
+        />
+      </div>
     </main>
   )
 }
