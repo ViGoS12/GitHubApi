@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/GitHubApi/static/css/main.6349bb78.css",
-    "main.js": "/GitHubApi/static/js/main.b33c9e03.js",
+    "main.js": "/GitHubApi/static/js/main.e21e3d2a.js",
     "static/js/606.c212eea3.chunk.js": "/GitHubApi/static/js/606.c212eea3.chunk.js",
     "static/js/872.377477ef.chunk.js": "/GitHubApi/static/js/872.377477ef.chunk.js",
     "static/css/544.fb68114e.chunk.css": "/GitHubApi/static/css/544.fb68114e.chunk.css",
@@ -9,13 +9,13 @@
     "static/media/clearButton.svg": "/GitHubApi/static/media/clearButton.169698cc1bd1e93cc14d30a2aa8a6adf.svg",
     "index.html": "/GitHubApi/index.html",
     "main.6349bb78.css.map": "/GitHubApi/static/css/main.6349bb78.css.map",
-    "main.b33c9e03.js.map": "/GitHubApi/static/js/main.b33c9e03.js.map",
+    "main.e21e3d2a.js.map": "/GitHubApi/static/js/main.e21e3d2a.js.map",
     "606.c212eea3.chunk.js.map": "/GitHubApi/static/js/606.c212eea3.chunk.js.map",
     "872.377477ef.chunk.js.map": "/GitHubApi/static/js/872.377477ef.chunk.js.map",
     "544.fb68114e.chunk.css.map": "/GitHubApi/static/css/544.fb68114e.chunk.css.map"
   },
   "entrypoints": [
     "static/css/main.6349bb78.css",
-    "static/js/main.b33c9e03.js"
+    "static/js/main.e21e3d2a.js"
   ]
 }
