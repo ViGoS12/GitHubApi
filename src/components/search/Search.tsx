@@ -1,6 +1,7 @@
 import { memo, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import CleatButton from '../../assets/svg/clearButton.svg'
+import Button from '../../shared/UI/button'
 
 interface ISearchProps {
   searchValue: string
@@ -22,10 +23,12 @@ const Search: React.FC<ISearchProps> = ({
   }
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && searchValue.length) {
       router(`/${searchValue}/repos`)
     }
   }
+
+  const userLink = searchValue.length ? `/${searchValue}/repos` : ''
 
   return (
     <>
@@ -50,11 +53,11 @@ const Search: React.FC<ISearchProps> = ({
             />
           </div>
         )}
-        <Link
-          to={`/${searchValue}/repos`}
-          className='text-black bg-yellowYa block px-[20px] rounded-[0.5rem] hover:opacity-90 transition-all my-[4px] mr-[4px] text-[0.9rem]'>
-          Get User
-        </Link>
+        <Button>
+          <Link className='whitespace-nowrap text-base' to={userLink}>
+            Get User
+          </Link>
+        </Button>
       </div>
     </>
   )

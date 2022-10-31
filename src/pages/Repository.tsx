@@ -35,7 +35,6 @@ const Repository = () => {
     return myDate.toLocaleString()
   }
 
-  console.log(repoInfo)
   return (
     <>
       <div className='flex h-10 mx-5 mt-1'>

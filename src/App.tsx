@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import {
   RouterProvider,
   Route,
@@ -5,6 +6,10 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom'
 import { publicRoutes } from './routes/index'
+
+import { ToastContainer } from 'react-toastify'
+
+import Loader from './shared/UI/loader'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,7 +20,14 @@ const router = createBrowserRouter(
 )
 
 function App() {
-  return <RouterProvider router={router} />
+  return (
+    <>
+      <ToastContainer />
+      <Suspense fallback={<Loader />}>
+        <RouterProvider router={router} />
+      </Suspense>
+    </>
+  )
 }
 
 export default App
