@@ -2,22 +2,25 @@ import { useEffect, useCallback } from 'react'
 
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../redux/store'
-import { fetchUserProfile, fetchUserRepos } from '../redux/slices/userSlice'
+import { fetchUserProfile } from '../redux/slices/userSlice'
+import { fetchUserRepos } from '../redux/slices/reposSlice'
 import { setSearchValue } from '../redux/slices/searchSlice'
+import { setPage } from '../redux/slices/infoSlice'
 
 import { Link, useParams } from 'react-router-dom'
 
 import Table from './../components/table/'
 import Search from '../components/search'
 
+import Pagination from '../components/shared/UI/pagination'
+
 import { THEADCOL_USER } from '../constants'
-import Pagination from '../components/UI/pagination'
-import { setPage } from '../redux/slices/infoSlice'
 
 const User = () => {
   const { userName } = useParams()
   const dispatch = useAppDispatch()
-  const { user, userRepos } = useSelector((state: RootState) => state.user)
+  const { user } = useSelector((state: RootState) => state.user)
+  const { userRepos } = useSelector((state: RootState) => state.repos)
   const { searchValue } = useSelector((state: RootState) => state.search)
   const { page, pagCount, publicRepos } = useSelector(
     (state: RootState) => state.info
@@ -68,30 +71,32 @@ const User = () => {
           </div>
         </div>
         {userName && (
-          <Table
-            tHeadCol={THEADCOL_USER}
-            cnTHeadCol='text-sm font-medium  px-6 py-1 text-left'>
-            {userRepos.map((repo) => (
-              <tr key={repo.id}>
-                <td className='text-sm font-light px-6 py-2'>
-                  <Link
-                    className=' hover:opacity-45'
-                    to={`/${userName}/repos/${repo.name}`}>
-                    {repo.name}
-                  </Link>
-                </td>
-                <td className='text-sm font-light px-6 py-2'>
-                  {repo.language}
-                </td>
-                <td className='text-sm font-light px-6 py-2'>
-                  {repo.description}
-                </td>
-                <td className='text-sm font-light px-6 py-2'>
-                  {repo.stargazers_count}
-                </td>
-              </tr>
-            ))}
-          </Table>
+          <div className='max-w-[50%]'>
+            <Table
+              tHeadCol={THEADCOL_USER}
+              cnTHeadCol='text-sm font-medium  px-6 py-1 text-left'>
+              {userRepos.map((repo) => (
+                <tr key={repo.id}>
+                  <td className='text-sm font-light px-6 py-2'>
+                    <Link
+                      className=' hover:opacity-45'
+                      to={`/${userName}/repos/${repo.name}`}>
+                      {repo.name}
+                    </Link>
+                  </td>
+                  <td className='text-sm font-light px-6 py-2'>
+                    {repo.language}
+                  </td>
+                  <td className='text-sm font-light px-6 py-2'>
+                    {repo.description}
+                  </td>
+                  <td className='text-sm font-light px-6 py-2'>
+                    {repo.stargazers_count}
+                  </td>
+                </tr>
+              ))}
+            </Table>
+          </div>
         )}
       </div>
       <Pagination totalPage={totalPage} onChange={handleChangePage} />

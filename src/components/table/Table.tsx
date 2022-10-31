@@ -1,4 +1,4 @@
-import TableHead from './tableHead'
+import Head from './head'
 import { ReactNode } from 'react'
 
 interface ITableProps {
@@ -13,12 +13,7 @@ const Table: React.FC<ITableProps> = ({ tHeadCol, cnTHeadCol, children }) => {
       <thead className=' border border-solid border-divider '>
         <tr>
           {tHeadCol.map((col) => {
-            return (
-              <TableHead
-                key={col}
-                item={col}
-                className={cnTHeadCol}></TableHead>
-            )
+            return <Head key={col} item={col} className={cnTHeadCol}></Head>
           })}
         </tr>
       </thead>

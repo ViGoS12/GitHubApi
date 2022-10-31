@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../redux/store'
-import { fetchRepo } from './../redux/slices/userSlice'
+
+import { fetchRepo } from './../redux/slices/repoSlice'
 
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
@@ -8,14 +9,14 @@ import { useEffect } from 'react'
 import Table from './../components/table/'
 
 import { THEADCOL_REPO } from '../constants'
-import Button from '../components/UI/button'
+import Button from '../components/shared/UI/button'
 
 const Repository = () => {
   const navigate = useNavigate()
   const { userName, repoName } = useParams()
 
   const dispatch = useAppDispatch()
-  const { repoInfo } = useSelector((state: RootState) => state.user)
+  const { repoInfo } = useSelector((state: RootState) => state.repo)
 
   const goBack = () => navigate(-1)
 

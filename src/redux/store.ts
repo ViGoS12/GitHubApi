@@ -3,10 +3,14 @@ import { useDispatch } from 'react-redux'
 import user from './slices/userSlice'
 import search from './slices/searchSlice'
 import info from './slices/infoSlice'
+import repo from './slices/repoSlice'
+import repos from './slices/reposSlice'
 
 export const store = configureStore({
   reducer: {
     user,
+    repos,
+    repo,
     search,
     info,
   },
