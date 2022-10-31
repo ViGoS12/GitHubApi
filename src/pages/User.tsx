@@ -65,7 +65,7 @@ const User = () => {
 
   return (
     <main className='flex flex-col gap-5  pt-[1.4rem]'>
-      <div className='mx-auto w-6/12'>
+      <div className='mx-auto lg:w-6/12'>
         <Search
           searchValue={searchValue}
           changeInput={onChangeInput}
@@ -75,13 +75,14 @@ const User = () => {
       {statusUser === 'error' && <NotFound />}
       {statusUser === 'success' && (
         <div className='max-w-[1280px] mx-auto'>
-          <div className='flex gap-5 justify-around px-10'>
-            <div className='flex flex-col gap-4 text-center sticky h-fit'>
+          <div className='flex flex-col lg:flex-row  gap-5 justify-around px-10'>
+            <div className='flex flex-row lg:items-start items-center lg:flex-col  gap-4 text-center sticky h-fit'>
               <img
-                className='w-fit rounded-full '
+                className='lg:w-fit rounded-full w-[20%] '
                 src={user.avatar_url}
                 alt=''
               />
+
               <div className='flex flex-col text-start gap-1'>
                 <div className='text-[#C0D1D9]'>{user.name}</div>
                 <div className='text-[#8B949E]'>{user.login}</div>
