@@ -1,5 +1,5 @@
-import Head from './head'
-import { ReactNode } from 'react'
+import Head from './components/head'
+import { ReactNode, memo } from 'react'
 
 interface ITableProps {
   tHeadCol: string[]
@@ -22,4 +22,4 @@ const Table: React.FC<ITableProps> = ({ tHeadCol, cnTHeadCol, children }) => {
   )
 }
 
-export default Table
+export default memo(Table)

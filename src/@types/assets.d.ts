@@ -207,7 +207,7 @@ type RepoInfo = {
     events_url: string
     received_events_url: string
     type: string
-    site_admin: false
+    site_admin: boolean
   }
   committer: {
     login: string

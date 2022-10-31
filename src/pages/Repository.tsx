@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 import Table from './../components/table/'
 
 import { THEADCOL_REPO } from '../constants'
-import Button from '../components/shared/UI/button'
+import Button from '../shared/UI/button'
 
 const Repository = () => {
   const navigate = useNavigate()
@@ -35,25 +35,32 @@ const Repository = () => {
     return myDate.toLocaleString()
   }
 
+  console.log(repoInfo)
   return (
     <>
-      <div>{repoName}</div>
-      <Button onClick={goBack}>Go back</Button>
-      <Table
-        tHeadCol={THEADCOL_REPO}
-        cnTHeadCol='text-sm font-medium  px-6 py-1 text-left'>
-        {repoInfo.map(({ author, sha, commit }) => (
-          <tr key={sha}>
-            <td className='text-sm font-light px-6 py-2'>
-              {commit.author.name}
-            </td>
-            <td className='text-sm font-light px-6 py-2'>{sha}</td>
-            <td className='text-sm font-light px-6 py-2'>
-              {formatDate(commit.author.date)}
-            </td>
-          </tr>
-        ))}
-      </Table>
+      <div className='flex h-10 mx-5 mt-1'>
+        <Button onClick={goBack}>Go back</Button>
+      </div>
+      <div className='mx-auto max-w-[1280px]'>
+        <div className='flex flex-col gap-3'>
+          <div className='text-lg'>Repository: {repoName}</div>
+          <Table
+            tHeadCol={THEADCOL_REPO}
+            cnTHeadCol='text-sm font-medium  px-6 py-1 text-left'>
+            {repoInfo.map(({ sha, commit }) => (
+              <tr key={sha} className='border-solid border-b border-divider '>
+                <td className='text-sm font-light px-6 py-2'>
+                  {commit.author.name}
+                </td>
+                <td className='text-sm font-light px-6 py-2'>{sha}</td>
+                <td className='text-sm font-light px-6 py-2'>
+                  {formatDate(commit.author.date)}
+                </td>
+              </tr>
+            ))}
+          </Table>
+        </div>
+      </div>
     </>
   )
 }
